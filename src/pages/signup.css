@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+.earth-container .earth-image{
+    aspect-ratio: 1/1;
+    position: absolute;
+    width: 33em;
+    left:13%;
+    top:20%;
+    z-index: 0;
+    animation: logo-spin alternate 0.5s ease-in-out ;
+}
+
+.section-1 > div h1{
+    position: relative;
+    animation: text 1s ease-in-out;
+}
+.section-1 > div h2{
+    position: relative;
+    animation: text 1s ease-in-out;
+    animation-delay: 0.2s;
+}
+@keyframes logo-spin {
+    from {
+      top :100%;
+    }
+    to {
+      top:20%;
+    }
+  }
+@keyframes text {
+    from {
+      left:-100%;
+    }
+    to {
+      left:0;
+    }
+  }
+
+@media screen and (max-width: 900px) {
+    .earth-image{
+        width:100rem;
+        height:100rem;
+        padding-top:5em;
+        left:35%;
+    }
+
+    .section-1{
+        flex-direction: row;
+        position: absolute;
+        height: auto;
+        background-color: none;
+        top:0;
+        flex-wrap: wrap;
+        width:80%;
+        left:50%;
+        transform: translate(-50%,0);
+        border-radius: 20px;
+        margin-top: 2rem;
+    }
+    .section-1 > header{
+        width:100%;
+        background-color: none;
+        justify-content: start;
+        padding-top: 1rem;
+
+    }
+    .section-1 > header > img{
+        width: 18%;
+        height: 18%;
+        background-color: #60a5fa;
+        
+    }
+    .section-1 > div h1{
+        font-size: 2rem;
+        text-wrap: wrap;
+        width: 80%;
+    }
+    .section-1 > div h2{
+        font-size: 1rem;
+        text-wrap: wrap;
+        width: 80%;
+    }
+    .section-1 .earth-container{
+        justify-content: flex-end;
+        align-content: flex-end;
+
+    }
+    .section-1 .earth-container >.earth-image{
+        width: 25rem;
+        height: auto;
+        left:45%;
+        top:-40%;
+        background-position: center;
+        object-fit: contain;
+    } 
+    .section-2{
+        margin: 2rem;
+        border-radius: 20px;
+        align-self: flex-start;
+        padding: 15rem 2rem 2rem 2rem;
+        width:80%;
+        box-shadow: 2px 2px 20px rgb(149, 156, 255);
+
+    }
+    .section-2 > form > button{
+        width:60%;
+    }
+    .signup-container{
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        /* width: 100vw; */
+    }
+}
