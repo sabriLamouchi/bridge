@@ -26,7 +26,7 @@ const SignUpPage:React.FC=()=>{
                 community</h1>
                 <h2 className='text-lg text-left font-semibold text-secondary  z-10'>Starting new Journey with us and join our community</h2>
             </div>
-            <div className="earth-container w-full flex  justify-center items-center">
+            <div className="earth-container w-full flex  justify-center items-center z-0">
                 <img src="https://res.cloudinary.com/dvmlcsv3h/image/upload/v1732552356/earth_language_tcrddg.png" className='w-[80%] object-contain earth-image'/>
             </div>
         </div>
