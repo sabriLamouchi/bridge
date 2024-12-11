@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form"
 import { ModeToggle } from "@/components/mode-toggle"
 const SignUpPage:React.FC=()=>{
     const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const {register, handleSubmit} = useForm()
   return ( 
@@ -47,6 +46,10 @@ const SignUpPage:React.FC=()=>{
                     <Label htmlFor="email" className="text-primary text-sm">Email</Label>
                     <Input {...register("email")} type="text" placeholder="Email" className="p-6 dark:text-slate-50 dark:border-slate-50" />
                 </div>
+                <div className="flex flex-col items-start justify-center w-full ">
+                    <Label htmlFor="language" className="text-primary text-sm">Prefered Language</Label>
+                    <Input {...register("prefered_language")} type="text" placeholder="English" className="p-6 dark:text-slate-50 dark:border-slate-50" />
+                </div>
                 <div className="flex flex-col items-start justify-center w-full relative ">
                     <Label htmlFor="password" className="text-primary text-sm">Password</Label>
                     <Input {...register("password")}  type={showPassword ? "text":"password"} placeholder="Password" className="p-6 dark:text-slate-50 dark:border-slate-50" />
@@ -54,16 +57,6 @@ const SignUpPage:React.FC=()=>{
                      className="text-slate-700 text-sm absolute right-4 top-[50%] cursor-pointer ">
                         {
                             showPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />
-                        }
-                    </div>
-                </div>
-                <div className="flex flex-col items-start justify-center w-full relative">
-                    <Label htmlFor="confirm password" className="text-primary text-sm">Confirm password</Label>
-                    <Input {...register("confirmPassword")}  type={showConfirmPassword ? "text":"password"} placeholder="Password" className="p-6 dark:text-slate-50 dark:border-slate-50" />
-                    <div  onClick={()=>setShowConfirmPassword(!showConfirmPassword)}
-                     className="text-slate-700 text-sm absolute right-4 top-[50%] cursor-pointer ">
-                        {
-                            showConfirmPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />
                         }
                     </div>
                 </div>
