@@ -1,73 +1,209 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Eye, EyeOff, Github } from 'lucide-react';
 import { Button } from "@/components/ui/button"
-import "./signup.css"
-import React,{useState} from 'react'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Eye, EyeOff } from "lucide-react"
-import { useForm } from "react-hook-form"
 import { ModeToggle } from "@/components/mode-toggle"
-const SignUpPage:React.FC=()=>{
-    const [showPassword, setShowPassword] = useState(false)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {register, handleSubmit} = useForm()
-  return ( 
-    <div className='w-full h-[100vh] bg-gradient-to-bl from-blue-400 to-slate-200 flex items-center justify-between signup-container '>
-        <div className="absolute top-2 right-2">
-            <ModeToggle/>
-        </div>
-        <div className='flex flex-col items-start justify-start w-[40%] left-0 h-screen bg-blue-400 gap-4 
-         section-1 '>
-            <header className='flex items-center justify-start w-full z-10 '>
-                <img src="https://res.cloudinary.com/dvmlcsv3h/image/upload/v1732552348/logo_yikc58.svg"  className='w-24 h-24  '/>
-            </header>
-            <div className='flex flex-col items-start justify-center gap-3 w-[80%] mx-4 '>
-                <h1 className='text-5xl text-secondary font-sans font-extrabold text-wrap text-left'>Welcome to our
-                community</h1>
-                <h2 className='text-lg text-left font-semibold text-secondary  z-10'>Starting new Journey with us and join our community</h2>
-            </div>
-            <div className="earth-container w-full flex  justify-center items-center z-0">
-                <img src="https://res.cloudinary.com/dvmlcsv3h/image/upload/v1732552356/earth_language_tcrddg.png" className='w-[80%] object-contain earth-image'/>
-            </div>
-        </div>
-        <div className='flex flex-col items-center w-[60%] right-0 h-[100%] bg-white dark:bg-slate-600 rounded-s-3xl px-[8em]     pt-10 gap-10 section-2'>
-            <h1 className="text-4xl text-slate-700 dark:text-slate-50 font-sans font-extrabold text-wrap text-left w-full ">
-                Create Account
-            </h1>
-            <Button variant={"outline"} className=" flex justify-center items-center p-4 w-full">
-                <img src="https://res.cloudinary.com/dvmlcsv3h/image/upload/v1732553454/google_q0rka9.png" alt="google" className='w-6 h-6'/>
-                <span className="text-gray-500 dark:text-slate-50">continue with google</span>
-            </Button>
-            <span className="text-primary text-xl -m-4">-or-</span>
-            {/* form  */}
-            <form className="flex flex-col items-center justify-center w-full gap-4" onSubmit={handleSubmit((data)=>{
-                console.log(data)
-            })}>
-                <div className="flex flex-col items-start justify-center w-full ">
-                    <Label htmlFor="email" className="text-primary text-sm">Email</Label>
-                    <Input {...register("email")} type="text" placeholder="Email" className="p-6 dark:text-slate-50 dark:border-slate-50" />
-                </div>
-                <div className="flex flex-col items-start justify-center w-full ">
-                    <Label htmlFor="language" className="text-primary text-sm">Prefered Language</Label>
-                    <Input {...register("prefered_language")} type="text" placeholder="English" className="p-6 dark:text-slate-50 dark:border-slate-50" />
-                </div>
-                <div className="flex flex-col items-start justify-center w-full relative ">
-                    <Label htmlFor="password" className="text-primary text-sm">Password</Label>
-                    <Input {...register("password")}  type={showPassword ? "text":"password"} placeholder="Password" className="p-6 dark:text-slate-50 dark:border-slate-50" />
-                    <div  onClick={()=>setShowPassword(!showPassword)}
-                     className="text-slate-700 text-sm absolute right-4 top-[50%] cursor-pointer ">
-                        {
-                            showPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />
-                        }
-                    </div>
-                </div>
-                <Button type="submit"  className="w-full mt-4">Create Account</Button>
-            </form>
-            <span className="text-slate-600 self-start dark:text-slate-50">Already have an account? 
-                <a href="/login" className="text-primary text-sm font-bold">Login</a>
-            </span>
-        </div>
-    </div>
-  )
+import './signup.css';
+
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  prefered_language: string;
+  password: string;
 }
 
-export default SignUpPage
+const SignUpPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    prefered_language: '',
+    password: '',
+  });
+  const [errors, setErrors] = useState<Partial<FormData>>({});
+
+  const validateForm = () => {
+    const newErrors: Partial<FormData> = {};
+    
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = 'First name is required';
+    }
+    
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = 'Last name is required';
+    }
+
+    if (!formData.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (validateForm()) {
+      try {
+        // Replace with your API call
+        console.log('Form submitted:', formData);
+      } catch (error) {
+        console.error('Signup error:', error);
+      }
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    if (errors[name as keyof FormData]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
+  return (
+    <div className="signup-page">
+      <div className="absolute top-4 right-4 z-50">
+        <ModeToggle />
+      </div>
+      
+      <div className="signup-container">
+        {/* Left Side - Image */}
+        <div className="signup-image-section">
+          <div className="image-overlay">
+            <h1>Welcome to Bridge</h1>
+            <p>Connect with developers around the world</p>
+          </div>
+        </div>
+
+        {/* Right Side - Form */}
+        <div className="signup-form-section">
+          <div className="form-container">
+            <div className="form-header">
+              <h2>Create Account</h2>
+              <p>Start your journey with us today</p>
+            </div>
+
+            <Button variant="outline" className="w-full flex items-center justify-center gap-2 mb-6">
+              <Github className="w-5 h-5" />
+              <span>Sign up with Github</span>
+            </Button>
+
+            <div className="divider">
+              <span>or continue with</span>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="form-field">
+                  <Label htmlFor="firstName">First Name</Label>
+                  <Input
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className={errors.firstName ? 'error' : ''}
+                  />
+                  {errors.firstName && <span className="error-text">{errors.firstName}</span>}
+                </div>
+
+                <div className="form-field">
+                  <Label htmlFor="lastName">Last Name</Label>
+                  <Input
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className={errors.lastName ? 'error' : ''}
+                  />
+                  {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+                </div>
+              </div>
+
+              <div className="form-field">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={errors.email ? 'error' : ''}
+                />
+                {errors.email && <span className="error-text">{errors.email}</span>}
+              </div>
+
+              <div className="form-field">
+                <Label htmlFor="prefered_language">Preferred Language</Label>
+                <Input
+                  id="prefered_language"
+                  name="prefered_language"
+                  type="text"
+                  value={formData.prefered_language}
+                  onChange={handleChange}
+                  placeholder="English"
+                />
+              </div>
+
+              <div className="form-field">
+                <Label htmlFor="password">Password</Label>
+                <div className="password-input-wrapper">
+                  <Input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={errors.password ? 'error' : ''}
+                  />
+                  <button
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {errors.password && <span className="error-text">{errors.password}</span>}
+              </div>
+
+              <Button type="submit" className="w-full">
+                Create Account
+              </Button>
+            </form>
+
+            <p className="text-center mt-6">
+              Already have an account?{' '}
+              <Link to="/login" className="text-primary hover:underline">
+                Sign in
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SignUpPage;
